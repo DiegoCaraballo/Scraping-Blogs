@@ -8,7 +8,9 @@
 import scrapy
 
 
-class ScrapingItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class Article(scrapy.Item):
+    id_article = scrapy.Field()
+    title = scrapy.Field()
+    content = scrapy.Field()
+    date = scrapy.Field()
+    link = scrapy.Field()
