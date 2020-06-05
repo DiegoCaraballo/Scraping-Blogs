@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import html
+from datetime import datetime
 from Scraping.items import Article
 
 
@@ -17,7 +18,7 @@ class TmzSpider(scrapy.Spider):
         for item in articles:
 
             article = Article (
-                id_article = self._parse_id(item),
+                id_article = self._generate_id(item),
                 title = self._parse_title(item),
                 content = self._parse_content(item),
                 date = self._parse_date(item),
@@ -26,8 +27,8 @@ class TmzSpider(scrapy.Spider):
 
             yield article
 
-    def _parse_id(self, item):
-        """Parse article id."""
+    def _generate_id(self, item):
+        """Generate article id."""
         return ''
 
     def _parse_title(self, item):
@@ -52,7 +53,10 @@ class TmzSpider(scrapy.Spider):
 
     def _parse_date(self, item):
         """Parse article date."""
-        date = item.xpath('.//*[@class="article__published-at"]/text()')[1].extract().strip()
+        date_block = item.xpath('.//*[@class="article__published-at"]/text()')[1].extract().strip()
+        date_str = " ".join(date_block.split(" ")[:-1])
+        date = datetime.strptime(date_str, '%m/%d/%Y %I:%M %p')
+
         return date
 
     def _parse_link(self, item):
