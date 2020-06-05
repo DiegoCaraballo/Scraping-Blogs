@@ -29,7 +29,7 @@ class TmzSpider(scrapy.Spider):
 
     def _generate_id(self, item):
         """Generate article id."""
-        return ''
+        return self.name + self._parse_date(item).strftime("%m%d%Y%H%M")
 
     def _parse_title(self, item):
         """Parse article title."""
